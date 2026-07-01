@@ -1,0 +1,299 @@
+# agents.md
+
+# Purpose
+
+This document defines the working protocol for collaborating with an AI assistant while building the {{name}} application. This file  will evolve as the project evolves.
+
+The AI assistant will be asked to review this file at the beginning of each new context window. 
+
+In addition to this document, the AI assistant should also review:
+
+- `docs/product-brief.md`
+  - this document defines the product goals, and will evolve as the project evoloves 
+- `docs/architecture.md`
+  - this document defines the known architectural decisions and constraints, and will evolve as the project evoloves 
+
+If any of these files are missing from the project, the first thing the AI assistant should do is insist that we create them as they are the foundation of understanding what we are building and understanding the current state of the project.
+
+The AI assistant should treat these documents as the authoritative context for the project.
+
+## The role of README.md
+
+`README.md` is an extension of the information found in:
+- `docs/agents.md`
+- `docs/product-brief.md`
+- `docs/architecture.md`
+
+The key difference is that while those three docs are intended primarily as knowledge bases for AI coding assistants, `README.md` is primarily meant for high-level human consumption. 
+
+`README.md` should: 
+- Focus on high-level, human readable descriptions of the app capabilities.
+- Provide a basic understanding of local setup and production deployment of the app, including any known setup and deployment nuances, especially between environments. 
+
+`README.md` should not: 
+- Go into deep documentation of every capability. 
+- Get into the reasoning behind architectural or code-level decisions, and instead address those in `docs/architecture.md` as appropriate.
+
+For operational questions such as local setup or production deployment, the AI assistant should consult `README.md` and any explicitly referenced operational docs before answering from memory.
+
+---
+
+# Protocol Acknowledgement
+
+Before proceeding with any feature discussion, the AI assistant should briefly confirm that it has read and understood the collaboration protocol defined in this document, as well as in docs/product-brief.md, and docs/architecture.md. 
+
+The AI assistant should then confirm that it will follow the workflow described here for the duration of the conversation.
+
+This acknowledgement should be concise and should occur once at the beginning of a new conversation when this document is provided.
+
+---
+
+# Collaboration Model
+
+Development will follow a feature-by-feature workflow. Each context window should ideally focus on one feature or one tightly scoped piece of functionality.
+
+This approach helps prevent context overflow and keeps discussions organized.
+
+When a new conversation begins, the user will explicitly state whether the session is focused on:
+
+- building a new feature
+- extending an existing feature
+- troubleshooting or debugging
+- refactoring
+- architecture discussion
+
+The AI assistant should adapt its behavior based on the declared purpose of the session.
+
+---
+
+# Project State Awareness
+
+The AI assistant should assume the project already contains working code and should avoid making assumptions about existing structures.
+
+Before proposing implementation details that depend on the current codebase, the AI assistant should ask for clarification if necessary.
+
+Examples of things that may need confirmation include:
+
+- existing models
+- database schema
+- controller structure
+- route organization
+- service classes
+- UI structure
+
+If the AI assistant does not have direct access to the codebase, it should request relevant files rather than guessing.
+
+Clarification should always be preferred over assumptions about how the project is currently implemented.
+
+---
+
+# Architectural Simplicity
+
+When proposing implementations, the AI assistant should favor the simplest solution that satisfies the requirements.
+
+Avoid introducing unnecessary complexity such as:
+
+- additional abstraction layers
+- premature microservices
+- heavy frontend frameworks
+- infrastructure dependencies that conflict with shared hosting constraints
+
+Proposed solutions should align with the architectural principles defined in architecture.md.
+
+The goal is to maintain rapid development velocity, low operational complexity, and compatibility with the intended hosting environment.
+
+---
+
+# Uncertainty Handling
+
+If the AI assistant is unsure about:
+
+- a requirement
+- how the existing system works
+- whether a feature already exists
+- the correct implementation approach
+
+it should pause and ask a question rather than making assumptions.
+
+Clarification should always be preferred over speculative implementation.
+
+---
+
+# Architecture Alignment Check
+
+Before proposing implementation details or writing code, the AI assistant should ensure the proposed solution aligns with the architecture defined in architecture.md.
+
+If the implementation depends on existing project structures (models, services, controllers, database schema, routes, etc.), the AI assistant should confirm those structures rather than assuming they exist.
+
+If the relevant structure is unknown, the AI assistant should request the relevant file or description before proceeding.
+
+The goal is to ensure that all new code integrates cleanly with the existing architecture rather than introducing conflicting patterns.
+
+---
+
+# Feature Development Workflow
+
+When discussing a new feature or piece of functionality, the AI assistant should follow the structured workflow below.
+
+---
+
+## 1. Clarifying Questions
+
+The AI assistant should begin by asking clarifying questions.
+
+Guidelines:
+
+- ask one question at a time
+- wait for the user's response before asking the next question
+- questions should focus on eliminating ambiguity in the feature requirements
+
+Examples may include:
+
+- expected user behavior
+- data structure expectations
+- edge cases
+- UI behavior
+- integration with existing features
+
+The goal of this phase is to fully understand the intended behavior before proposing implementation.
+
+---
+
+## 2. Implementation Proposal
+
+After the requirements are clear, the AI assistant should propose a technical implementation plan.
+
+The plan should include:
+
+- the overall implementation approach
+- how it fits into the existing architecture
+- any tradeoffs or alternative approaches
+- potential risks or complexity concerns
+
+This proposal should remain conceptual rather than code-level.
+
+---
+
+## 3. Decision Points
+
+If the proposed plan introduces decisions or tradeoffs, the AI assistant should surface them clearly.
+
+Examples include:
+
+- alternative database designs
+- different UI approaches
+- performance vs simplicity tradeoffs
+- synchronous vs queued processing
+- API design choices
+
+Guidelines:
+
+- present one decision at a time
+- wait for the user to choose a direction before continuing
+
+---
+
+## 4. Implementation Plan Summary
+
+Once the plan and tradeoffs are finalized, the AI assistant should produce a concise implementation summary.
+
+This summary should include:
+
+### Files that will be modified
+
+Existing files expected to change.
+
+### New files that will be created
+
+Controllers, models, migrations, views, services, etc.
+
+### Database changes
+
+New tables, migrations, columns, or indexes.
+
+### Routes or endpoints
+
+New routes, API endpoints, or route changes.
+
+### UI changes
+
+New screens, forms, components, or UI behaviors.
+
+### Tests
+
+Unit tests, feature tests, or browser tests that should be added.
+
+This summary serves as a final checkpoint before implementation begins.
+
+---
+
+# Implementation Phase
+
+Once the implementation plan is approved, execution begins.
+
+The AI assistant should guide the process using incremental steps.
+
+Guidelines:
+
+- operate one at a time
+- each step should include:
+  - what to change
+  - where to change it
+  - how to verify the change worked
+
+Verification steps are important to catch errors early.
+
+Examples may include:
+
+- running migrations
+- refreshing a page
+- confirming a UI element appears
+- running tests
+
+---
+
+# Code Modification Policy
+
+If the AI assistant has access to the user's codebase, it may offer to implement changes directly.
+
+Prefer targeted changes over rewrites. Do not restructure unrelated code while implementing a feature. 
+
+However:
+
+- the AI assistant should not modify code automatically without permission
+- the user must explicitly approve any direct code modifications
+
+Default behavior should be guided implementation rather than automatic changes.
+
+---
+
+# End-of-Feature Review
+
+At the completion of a feature or functionality discussion, the user may ask the AI assistant to summarize any changes that affect the core project documentation.
+
+The AI assistant should review the work completed and identify whether updates may be needed in:
+
+- `docs/agents.md`
+- `docs/product-brief.md`
+- `docs/architecture.md`
+- `README.md`
+
+The AI assistant should provide a list of recommended documentation updates.
+
+The user will then decide:
+
+- which updates should be made
+- whether to update the files manually or ask the AI assistant to update them
+
+---
+
+# Goal of This Workflow
+
+This collaboration model is designed to:
+
+- reduce ambiguity in AI-assisted development
+- prevent premature coding
+- keep conversations structured
+- avoid context window overflow
+- maintain consistent project documentation
+- enable steady feature-by-feature progress
